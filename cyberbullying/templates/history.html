@@ -1,0 +1,55 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="row">
+        <div class="col-12 history_layout">
+
+            <!--History column names-->
+            <div class="row">
+                <div class="col-2 text-center history_column">Date</div>
+                <div class="col-8 text-center history_column">Text</div>
+                <div class="col-1 text-center history_column">Class</div>
+                <div class="col-1 text-center history_column"></div>
+            </div>
+
+            <!--History table-->
+            <div class="row">
+                {% for historical_records in historical %}
+                    <div class="col-md-2 history_content text-center">
+                        {{ historical_records.date.strftime('%d-%m-%Y') }}
+                    </div>
+                    <div class="col-md-8 history_content">
+                        {{ historical_records.content}}
+                    </div>
+                    <div class="col-md-1 history_content text-center">
+                        {{ historical_records.status}}
+                    </div>
+                    <div class="col-md-1 history_content">
+                        <form action="{{ url_for('history') }}" method="POST" enctype="multipart/form-data">
+                            <button class="btn btn-danger btn-sm" type="submit" value="{{ historical_records.id}}" name="remove">
+                                Remove
+                            </button>
+                        </form>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <br>
+
+    <!-- Export CSV button-->
+    <div class="row" >
+        <div class="col-md-10"></div>
+        <div class="col-md-2">
+            <form action="{{ url_for('export_history')}}" method="POST" enctype="multipart/form-data">
+                <button class="btn btn-light" type="submit" name="export_csv">
+                    Export as CSV
+                </button>
+            </form>
+        </div>
+    </div>
+
+{% endblock content %}
+
+
+

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <!--Bootstrap CSS-->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename="bootstrap_files/bootstrap.min.css")}}">
+
+    <!--CSS-->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename="style.css") }}">
+
+    <!--Title-->
+    {%  if title %}
+        <title>{{ title }}</title>
+    {% else %}
+        <title>Cyberbullying Detection System</title>
+    {% endif %}
+
+</head>
+<body>
+    <!-- Image Block For Main Page-->
+    {% block image %}
+    {% endblock image %}
+
+    <header class="main-header">
+        <nav class="navbar navbar-expand-sm navbar-custom fixed-top">
+            <div class="container">
+
+                <!--Logo-->
+                <a class="navbar-brand mr-5" href="/">
+                    <img src="static/images/logo.png">
+                </a>
+
+                <!--Navigation Bar Toggler-->
+                <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarMenu">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!--Right Navigation Bar-->
+                <div class="collapse navbar-collapse" id="navbarMenu">
+                    {%  if current_user.is_authenticated %}
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url_for("home") }}">Home</a>
+                            </li>
+                             <li class="nav-item">
+                                <a class="nav-link" href="{{ url_for("user_search") }}">User Search</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url_for("history") }}">History</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url_for("profile") }}">Profile</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url_for("logout") }}">Logout</a>
+                            </li>
+                        </ul>
+                    {% else %}
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url_for("login") }}">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url_for("register") }}">Register</a>
+                            </li>
+                        </ul>
+                    {% endif %}
+                </div>
+
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content-->
+    <section class="container">
+                {% block content %}{% endblock content %}
+
+                <!--Flash Message-->
+                {% with messages = get_flashed_messages(with_categories=True) %}
+                    {% if messages %}
+                        {% for category,message in messages %}
+                            <div class="alert alert-{{ category }}" align="center">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+    </section>
+
+</body>
+
+<!--JQuery & Popper.js -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+
+<!--Bootstrap Javascript-->
+<script type="text/javascript" src="{{ url_for('static',filename="bootstrap_files/bootstrap.min.js") }}"></script>
+
+</html>

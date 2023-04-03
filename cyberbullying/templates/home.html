@@ -1,0 +1,146 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="row">
+
+        <div class="col-5">
+            <div class="input_text tweet_layout">
+                <form method="POST" action="" enctype="multipart/form-data">
+                    {{ form3.hidden_tag() }}
+
+                    <!--Tweet Keyword Search Form-->
+                    <div class="row m-1">
+                        <div class="col-8">
+                            <div class="form-group">
+                                {{ form3.tweet_search(class="form-control", placeholder="Please enter tweet keyword") }}
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-group">
+                                {{ form3.submit(class="btn btn-outline-dark") }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Tweets and Add Button-->
+                    <div class="row">
+                        <div class="col-12 tweet_view">
+                            <div class="row">
+                                {% if not tweets_df.empty %}
+                                    {% for index, tweet in tweets_df.iterrows() %}
+                                        <div class="col-md-2 text-center tweet_content">
+                                            <h6>{{ index + 1 }}</h6>
+                                        </div>
+                                        <div class="col-md-8 tweet_content">
+                                            {{ tweet['tweet_text'] }}
+                                        </div>
+                                        <div class="col-md-2 m-auto">
+                                            <button class="btn btn-danger btn-sm" type="submit" name="add" value="{{ index }}">
+                                                Add
+                                            </button>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+
+        <!--User input (text)-->
+        <div class="col-7">
+            <div class="input_text">
+                <form method="POST" action="" enctype="multipart/form-data">
+                    {{ form.hidden_tag() }}
+                    <fieldset class="form-group">
+                        <legend class="text-center ">
+                            <h5>Enter Text Here</h5>
+                        </legend>
+                        <div class="form-group">
+                            {{ form.user_text(class="form-control", placeholder="Please enter text") }}
+                        </div>
+                    </fieldset>
+                    <!--Submit Button-->
+                    <div class="form-group text-center">
+                        {{ form.submit(class="btn btn-sm btn-outline-dark") }}
+                    </div>
+                </form>
+
+                <!--Output Text-->
+                <div class="output_text text-center ">
+                    {% if form.user_text.data %}
+                        {% if final_output == '0' %}
+                            <h6>
+                                THIS IS  NOT CYBERBULLY: {{ final_output }} <br><br>
+                                {{ "\""+ form.user_text.data + "\"" }}
+                            </h6>
+                        {% else %}
+                            <h6>
+                                THIS IS CYBERBULLY: {{ final_output }} <br><br>
+                                {{ "\""+ form.user_text.data + "\"" }}
+                            </h6>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+
+
+            <div class="file_layout">
+                <div class="row">
+                    <div class="col-12 file_view">
+                        <div class="row">
+
+                            <!--Text column and Class column-->
+                            {% if not file_df.empty %}
+                                {% for index,tweet in file_df.iterrows() %}
+                                    <div class="col-10 file_content">
+                                        <h6>{{ tweet['Text'] }}</h6>
+                                    </div>
+                                    <div class="col-2">
+                                        <h6>{{ tweet['Class'] }}</h6>
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+
+                        </div>
+                    </div>
+
+                    <div class="col-12 mt-md-3">
+                        <div class="row">
+                            <div class="col-12">
+                                <form method="POST" action="" enctype="multipart/form-data">
+                                    {{ form2.hidden_tag() }}
+                                    <div class="row">
+
+                                        <!--Upload file-->
+                                        <div class="col-7">
+                                            <div class="form-group">
+                                                {{ form2.csv_file(class="form-control-file")}}
+                                                {% if form2.csv_file.errors %}
+                                                    {% for error in form2.csv_file.errors %}
+                                                        <span class="text-danger">{{ error }}</span><br>
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </div>
+                                        </div>
+
+                                        <!--Submit button-->
+                                        <div class="col-5">
+                                            <div class="form-group">
+                                                {{ form2.submit(class="btn btn-sm btn-outline-dark") }}
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock content %}

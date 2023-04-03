@@ -1,0 +1,74 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="row">
+        <div class="col-12 search_user_layout">
+            <form method="POST" action="" enctype="multipart/form-data">
+                {{ form.hidden_tag() }}
+
+                <!--User Search Form-->
+                <div class="row mt-3">
+                    <div class="col-2"></div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            {{ form.user_search(class="form-control", placeholder="Please enter Twitter username (include @ symbol)") }}
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="form-group text-center">
+                            {{ form.submit(class="btn btn-outline-dark") }}
+                        </div>
+                    </div>
+                    <div class="col-2"></div>
+                </div>
+
+                <!-- User ID Display-->
+                <div class="text-center mb-3">
+                    {% if form.user_search.data %}
+                        <h5>Twitter User ID : {{ form.user_search.data }}</h5>
+                    {% endif %}
+                </div>
+
+                <!-- User Search Results View-->
+                <div class="row">
+                    <div class="col-1"></div>
+                    <div class="col-10 search_user_view ">
+                        <div class="row">
+                            {% if not user_df.empty %}
+                                {% for index,tweet in user_df.iterrows() %}
+                                    <div class="col-10 search_user_content">
+                                        {{ tweet['tweet_text'] }}
+                                    </div>
+                                    <div class="col-2 search_user_content text-center">
+                                        {{ tweet['Class'] }}
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-1"></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-1"></div>
+                    <!--Cyberbully Count-->
+                    <div class="col-8 mt-3">
+                        {% if not user_df.empty %}
+                             <h4>Cyberbully Count:  {{ (user_df['Class'] == '1').sum() }} / 20</h4>
+                         {% endif %}
+                    </div>
+
+                    <!--Add All Button-->
+                    <div class="col-2 mt-3 text-center">
+                        {% if not user_df.empty %}
+                            <button class="btn btn-sm btn-danger" type="submit" name="add_all" value="add_all">
+                                 Add All
+                            </button>
+                        {% endif %}
+                    </div>
+                    <div class="col-1"></div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+{% endblock content %}

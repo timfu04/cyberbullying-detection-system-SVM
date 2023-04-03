@@ -1,0 +1,182 @@
+body{
+    background-image: url("images/greenmatrix01.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+}
+
+
+
+.main_bg{
+    margin: 0px;
+    background-image: url("images/cyberbullying_main.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+}
+
+.navbar-custom {
+    background-color: #000;
+}
+
+.navbar-custom .navbar-brand,
+.navbar-custom .navbar-text {
+    color: #fff;
+}
+
+.nav-link{
+    color: #fff !important;
+    padding-left: 1.5rem !important;
+}
+
+.navbar-toggler{
+    border-color: white;
+}
+
+.main-footer{
+    font-size: 14px;
+    color: #fff;
+    background: #000;
+    padding-top: 1rem;
+    text-align: center;
+}
+
+.alert{
+    max-width: 450px;
+    margin-top: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 15px;
+}
+
+
+
+.content-01{
+    max-width: 450px;
+    background-color: rgba(255,255,255,0.85);
+    padding: 15px 25px ;
+    border-radius: 30px;
+    margin-top: 7rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+
+.input_text{
+    background-color: rgba(255,255,255,0.85);
+    padding: 15px 25px ;
+    border-radius: 30px;
+    margin-top: 7rem;
+}
+
+.output_text{
+    height: auto;
+    max-height: 15vh;
+    overflow: hidden;
+    overflow: auto;
+}
+
+
+
+.tweet_layout{
+    height: 67vh;
+}
+
+.tweet_view{
+    height: 55vh;
+    border-radius: 30px;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+.tweet_content{
+    border-bottom: #000 1px solid;
+    border-right: #000 1px solid;
+    padding: 15px 5px;
+}
+
+
+
+.file_layout{
+    margin-top: 2rem;
+    background-color: rgba(255,255,255,0.85);
+    padding: 15px 25px ;
+    border-radius: 30px;
+}
+
+.file_view{
+    height:30vh;
+    border-bottom: #000 1px solid;
+    padding: 10px;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+.file_content{
+    border-right: #000 1px solid;
+}
+
+
+
+.search_user_layout{
+    background-color: rgba(255,255,255,0.85);
+    margin-top:7rem;
+    height: 75vh;
+    border-radius: 30px;
+}
+
+.search_user_view{
+    height: 55vh;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+.search_user_content{
+    border-bottom: #000 1px solid;
+    border-right: #000 1px solid;
+    padding: 15px 20px;
+}
+
+
+
+.history_layout{
+    background-color: rgba(255,255,255,0.85);
+    margin-top:7rem;
+    height: 75vh;
+    overflow: hidden;
+    overflow-y: auto;
+    border-radius: 30px;
+}
+
+.history_column{
+    background-color: #505050;
+    color: #fff;
+    font-weight: bold;
+}
+
+.history_content{
+    padding: 0.5rem;
+    border-bottom: #000 1px solid;
+    border-right: #000 1px solid;
+}
+
+
+
+.profile-img {
+  height: 125px;
+  width: 125px;
+  margin-right: 20px;
+  margin-bottom: 20px;
+}
+
+
+
+
+
+
+
+
+
