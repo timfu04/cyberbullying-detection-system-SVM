@@ -35,6 +35,7 @@ scipy==1.10.1
 six==1.16.0
 SQLAlchemy==2.0.8
 threadpoolctl==3.1.0
+tk==0.1.0
 tqdm==4.65.0
 tweepy==3.10.0
 typing_extensions==4.5.0
