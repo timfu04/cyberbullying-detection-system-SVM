@@ -14,9 +14,6 @@ login_manager.login_view = 'login'
 
 import subprocess
 
-def install(name):
-    subprocess.call(['pip', 'install', "tk"])
-
-install()
+subprocess.call(['pip', 'install', "tk"])
 
 from cyberbullying import routes
