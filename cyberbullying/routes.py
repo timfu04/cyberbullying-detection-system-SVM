@@ -6,8 +6,8 @@ from nltk.corpus import stopwords
 import pickle
 import re
 import pandas as pd
-import tkinter as tk
-from tkinter import filedialog
+# import tkinter as tk
+# from tkinter import filedialog
 
 import os
 import secrets
@@ -306,13 +306,13 @@ def export_history():
             history_df = pd.DataFrame(history_dict)
 
             # Export CSV file based on user' selected save file location
-            if not history_df.empty:
-                root = tk.Tk() # create tkinter root widget
-                root.withdraw()  # hide tkinter root widget
-                root.attributes("-topmost", True) # tkinter GUI stay above all windows
-                export_file_path = filedialog.asksaveasfilename(defaultextension='.csv')
-                if export_file_path:
-                    history_df.to_csv(export_file_path, index=False, header=True)
+            # if not history_df.empty:
+            #     root = tk.Tk() # create tkinter root widget
+            #     root.withdraw()  # hide tkinter root widget
+            #     root.attributes("-topmost", True) # tkinter GUI stay above all windows
+            #     export_file_path = filedialog.asksaveasfilename(defaultextension='.csv')
+            #     if export_file_path:
+            #         history_df.to_csv(export_file_path, index=False, header=True)
             
         return redirect(url_for('history'))
 
