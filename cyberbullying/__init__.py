@@ -12,8 +12,8 @@ login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 
 
-import subprocess
+# import subprocess
 
-subprocess.call(['pip', 'install', "tk"])
+# subprocess.call(['pip', 'install', "tk"])
 
 from cyberbullying import routes
