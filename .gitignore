@@ -2,3 +2,4 @@ venv/
 .idea/
 .vscode/
 cyberbullying/config.ini
+cyberbullying/__pycache__
