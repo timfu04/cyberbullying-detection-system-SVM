@@ -1,3 +1,4 @@
+from io import StringIO
 import nltk
 nltk.download('stopwords')
 nltk.download('wordnet')
@@ -7,17 +8,17 @@ import pickle
 import re
 import pandas as pd
 from datetime import datetime
-from winreg import OpenKey, HKEY_CURRENT_USER, QueryValueEx
-
 import os
 import secrets
 from PIL import Image
-from flask import render_template, flash, redirect, url_for, request
+from flask import make_response, render_template, flash, redirect, url_for, request
 from cyberbullying import app, db, bcrypt, twitterAPI
 from cyberbullying.forms import (RegisterForm, LoginForm, UpdateProfileForm, UserInputForm, FileInputForm,
                                  TwitterInputForm, TwitterUserForm)
 from cyberbullying.modelsDB import User, History
 from flask_login import login_user, current_user, logout_user, login_required
+
+
 
 # Load machine learning model (Linear SVM)
 with open('cyberbullying/svm_model_pickle', 'rb') as f:
@@ -287,6 +288,7 @@ def history():
 @login_required
 def export_history():
     if request.method == "POST":
+        
         historical = History.query.all()  # get all data from History table
         
         # Create arrays to create a dictionary, then create dataframe with that dictionary
@@ -304,19 +306,42 @@ def export_history():
             history_dict = {'Date': date_arr, 'Text': content_arr, 'Class': status_arr}
             history_df = pd.DataFrame(history_dict)
             
-            # Get "Downloads" folder path with Windows Registry UUIDs
-            with OpenKey(HKEY_CURRENT_USER, 'SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders') as key:
-                source_path = QueryValueEx(key, '{374DE290-123F-4565-9164-39C4925E467B}')[0]
-
             # current datetime string in "DDMMYYY_HHMMSS" format
             datetime_string = datetime.now().strftime("%d%m%Y_%H%M%S")
-            export_file_name = f"history_{datetime_string}"
-            export_file_path = f"{source_path}\{export_file_name}.csv"
+            export_file_name = f"history_{datetime_string}.csv"
             
-            # Export CSV in user's Downloads folder
-            if not history_df.empty:
-                history_df.to_csv(export_file_path, index=False, header=True) 
-                            
+            # Convert the DataFrame to a CSV string with UTF-8-SIG encoding
+            csv_string = history_df.to_csv(index=False, header=True, encoding='utf-8-sig')
+
+            import codecs
+            # Create a Flask response object with the CSV data
+            response = make_response(codecs.BOM_UTF8.decode("utf8") + codecs.BOM_UTF8.decode() + csv_string)
+
+            # Set the headers to force browser to download the file
+            response.headers.set('Content-Disposition', 'attachment', filename = export_file_name)
+            response.headers.set('Content-Type', 'text/csv')
+
+            return response
+            
+            
+            
+            # history_df.to_csv("file.csv", encoding="utf-8-sig")
+            
+            # # Set the encoding of the DataFrame to UTF-8
+            # history_df = history_df.applymap(lambda x: x.encode('unicode_escape').decode('utf-8-sig') if isinstance(x, str) else x)
+
+            # # Convert the DataFrame to CSV string
+            # csv_string = history_df.to_csv(index=False, encoding='utf-8-sig', escapechar='\\', header=True)
+        
+            # # download history dataframe as CSV
+            # if not history_df.empty:
+            #     response = make_response(csv_string)
+            #     response.headers['Content-Disposition'] = f'attachment; filename={export_file_name}'
+            #     response.headers["Content-Type"] = 'text/csv'
+            #     return response
+            
+            
+                
         return redirect(url_for('history'))
 
 
