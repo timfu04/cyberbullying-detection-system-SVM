@@ -6,8 +6,8 @@ from nltk.corpus import stopwords
 import pickle
 import re
 import pandas as pd
-# import tkinter as tk
-# from tkinter import filedialog
+from datetime import datetime
+from winreg import OpenKey, HKEY_CURRENT_USER, QueryValueEx
 
 import os
 import secrets
@@ -287,7 +287,6 @@ def history():
 @login_required
 def export_history():
     if request.method == "POST":
-        request.form.get('export_csv')
         historical = History.query.all()  # get all data from History table
         
         # Create arrays to create a dictionary, then create dataframe with that dictionary
@@ -304,16 +303,20 @@ def export_history():
                 status_arr.append(status)
             history_dict = {'Date': date_arr, 'Text': content_arr, 'Class': status_arr}
             history_df = pd.DataFrame(history_dict)
-
-            # Export CSV file based on user' selected save file location
-            # if not history_df.empty:
-            #     root = tk.Tk() # create tkinter root widget
-            #     root.withdraw()  # hide tkinter root widget
-            #     root.attributes("-topmost", True) # tkinter GUI stay above all windows
-            #     export_file_path = filedialog.asksaveasfilename(defaultextension='.csv')
-            #     if export_file_path:
-            #         history_df.to_csv(export_file_path, index=False, header=True)
             
+            # Get "Downloads" folder path with Windows Registry UUIDs
+            with OpenKey(HKEY_CURRENT_USER, 'SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders') as key:
+                source_path = QueryValueEx(key, '{374DE290-123F-4565-9164-39C4925E467B}')[0]
+
+            # current datetime string in "DDMMYYY_HHMMSS" format
+            datetime_string = datetime.now().strftime("%d%m%Y_%H%M%S")
+            export_file_name = f"history_{datetime_string}"
+            export_file_path = f"{source_path}\{export_file_name}.csv"
+            
+            # Export CSV in user's Downloads folder
+            if not history_df.empty:
+                history_df.to_csv(export_file_path, index=False, header=True) 
+                            
         return redirect(url_for('history'))
 
 
