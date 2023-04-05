@@ -215,7 +215,7 @@ def home():
             tweets_df = twitterAPI.get_tweets(search)
             if not tweets_df.empty:  # if dataframe not empty
                 tweets_df['Class'] = tweets_df.apply(lambda x: make_pred(x['tweet_text']), axis=1)
-                tweets_df.to_csv('cyberbullying/temp_tweets.csv', index=False)
+                tweets_df.to_csv('cyberbullying/temp_tweets.csv', index=False) # this is a temporarily folder to save data into DB (not testing code)
 
         # Save selected tweet by the user to the database
         if request.method == "POST":
