@@ -1,4 +1,3 @@
-from io import StringIO
 import nltk
 nltk.download('stopwords')
 nltk.download('wordnet')
@@ -10,6 +9,7 @@ import pandas as pd
 from datetime import datetime
 import os
 import secrets
+import codecs
 from PIL import Image
 from flask import make_response, render_template, flash, redirect, url_for, request
 from cyberbullying import app, db, bcrypt, twitterAPI
@@ -288,7 +288,6 @@ def history():
 @login_required
 def export_history():
     if request.method == "POST":
-        
         historical = History.query.all()  # get all data from History table
         
         # Create arrays to create a dictionary, then create dataframe with that dictionary
@@ -310,38 +309,18 @@ def export_history():
             datetime_string = datetime.now().strftime("%d%m%Y_%H%M%S")
             export_file_name = f"history_{datetime_string}.csv"
             
-            # Convert the DataFrame to a CSV string with UTF-8-SIG encoding
-            csv_string = history_df.to_csv(index=False, header=True, encoding='utf-8-sig')
-
-            import codecs
-            # Create a Flask response object with the CSV data
-            response = make_response(codecs.BOM_UTF8.decode("utf8") + codecs.BOM_UTF8.decode() + csv_string)
+            # Convert the DataFrame to a CSV string
+            csv_string = history_df.to_csv(index=False, header=True)
+            
+            # Create a Flask response object with the CSV data with UTF-8 
+            response = make_response(codecs.BOM_UTF8.decode("utf8") + csv_string)
 
             # Set the headers to force browser to download the file
             response.headers.set('Content-Disposition', 'attachment', filename = export_file_name)
             response.headers.set('Content-Type', 'text/csv')
 
             return response
-            
-            
-            
-            # history_df.to_csv("file.csv", encoding="utf-8-sig")
-            
-            # # Set the encoding of the DataFrame to UTF-8
-            # history_df = history_df.applymap(lambda x: x.encode('unicode_escape').decode('utf-8-sig') if isinstance(x, str) else x)
-
-            # # Convert the DataFrame to CSV string
-            # csv_string = history_df.to_csv(index=False, encoding='utf-8-sig', escapechar='\\', header=True)
-        
-            # # download history dataframe as CSV
-            # if not history_df.empty:
-            #     response = make_response(csv_string)
-            #     response.headers['Content-Disposition'] = f'attachment; filename={export_file_name}'
-            #     response.headers["Content-Type"] = 'text/csv'
-            #     return response
-            
-            
-                
+                        
         return redirect(url_for('history'))
 
 
