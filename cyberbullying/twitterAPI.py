@@ -1,16 +1,13 @@
+import os
 import tweepy
 import pandas as pd
-from configparser import ConfigParser
 pd.set_option('display.max_colwidth', 100)
 
-config = ConfigParser()
-config.read("cyberbullying/config.ini")
-
 # Twitter API Credentials
-CONSUMER_KEY = config["twitter_credentials"]["CONSUMER_KEY"]
-CONSUMER_SECRET = config["twitter_credentials"]["CONSUMER_SECRET"]
-ACCESS_TOKEN = config["twitter_credentials"]["ACCESS_TOKEN"]
-ACCESS_TOKEN_SECRET = config["twitter_credentials"]["ACCESS_TOKEN_SECRET"]
+CONSUMER_KEY = os.environ.get("TWITTER_API_CONSUMER_KEY")
+CONSUMER_SECRET = os.environ.get("TWITTER_API_CONSUMER_SECRET")
+ACCESS_TOKEN = os.environ.get("TWITTER_API_ACCESS_TOKEN")
+ACCESS_TOKEN_SECRET = os.environ.get("TWITTER_API_ACCESS_TOKEN_SECRET")
 
 # Authorize Twitter API
 auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
